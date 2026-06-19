@@ -1,14 +1,20 @@
 import axios from "axios";
 import { useState } from "react";
+import { BASE_URL } from "../utils/constants";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [emailId, setEmailId] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onLoginClick = async () => {
     try {
-      const data = await axios.post(
-        "http://localhost:7777/login",
+      const res = await axios.post(
+        BASE_URL + "login",
         {
           emailId,
           password,
@@ -16,7 +22,10 @@ const Login = () => {
         // to set cookie we need to set withCredentials as true in frontend and cors config credentials as true in backend
         { withCredentials: true },
       );
-      console.log("Logged In", data);
+      console.log("Logged In", res.data);
+      const user = res.data;
+      dispatch(addUser(user));
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
