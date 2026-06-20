@@ -25,7 +25,7 @@ const Login = () => {
       console.log("Logged In", res.data);
       const user = res.data;
       dispatch(addUser(user));
-      navigate("/");
+      return navigate("/");
     } catch (error) {
       console.log(error);
     }
