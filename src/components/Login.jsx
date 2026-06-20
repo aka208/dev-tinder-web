@@ -6,8 +6,10 @@ import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [emailId, setEmailId] = useState("");
-  const [password, setPassword] = useState("");
+  const [emailId, setEmailId] = useState("Pikachu@gmail.com");
+  const [password, setPassword] = useState("Pikachu@123");
+  const [error, setError] = useState("");
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -26,8 +28,9 @@ const Login = () => {
       const user = res.data;
       dispatch(addUser(user));
       return navigate("/");
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      setError("Error while validating user!");
+      console.log("Error", err);
     }
   };
   return (
@@ -55,6 +58,7 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          <p className="text-red-500">{error}</p>
           <div className="card-actions justify-center my-2">
             <button className="btn btn-primary" onClick={() => onLoginClick()}>
               Login
