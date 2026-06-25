@@ -6,12 +6,33 @@ import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [emailId, setEmailId] = useState("Pikachu@gmail.com");
-  const [password, setPassword] = useState("Pikachu@123");
+  const [loginForm, setLoginForm] = useState(true);
+  const [emailId, setEmailId] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [error, setError] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const clickHandler = async () => {
+    setLoginForm(!loginForm);
+  };
+
+  const signUpClickHandler = async () => {
+    try {
+      const requestBody = { firstName, lastName, emailId, password };
+      const res = await axios.post(`${BASE_URL}signup`, requestBody, {
+        withCredentials: true,
+      });
+      console.log(res);
+      navigate("/login");
+      setLoginForm(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const onLoginClick = async () => {
     try {
@@ -37,7 +58,33 @@ const Login = () => {
     <div className="flex justify-center items-center my-50">
       <div className="card card-dash bg-base-300 w-96">
         <div className="card-body">
-          <h2 className="card-title justify-center">Login</h2>
+          <h2 className="card-title justify-center">
+            {loginForm ? "Login" : "Sign Up"}
+          </h2>
+          {!loginForm && (
+            <>
+              <div className="my-2">
+                <label className="label">First Name</label>
+                <input
+                  type="email"
+                  className="input"
+                  placeholder=""
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+              </div>
+              <div className="my-2">
+                <label className="label">Last Name</label>
+                <input
+                  type="email"
+                  className="input"
+                  placeholder=""
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                />
+              </div>
+            </>
+          )}
           <div className="my-2">
             <label className="label">Email</label>
             <input
@@ -59,10 +106,21 @@ const Login = () => {
             />
           </div>
           <p className="text-red-500">{error}</p>
-          <div className="card-actions justify-center my-2">
-            <button className="btn btn-primary" onClick={() => onLoginClick()}>
-              Login
+          <div className="card-actions m-auto my-2">
+            <button
+              className="btn btn-primary"
+              onClick={() =>
+                loginForm ? onLoginClick() : signUpClickHandler()
+              }
+            >
+              {loginForm ? "Login" : "Sign Up"}
             </button>
+          </div>
+          <div
+            className="cursor-pointer m-auto hover:underline my-2"
+            onClick={() => clickHandler()}
+          >
+            {loginForm ? "New User? Sign Up" : "Existing User Sign In"}
           </div>
         </div>
       </div>
