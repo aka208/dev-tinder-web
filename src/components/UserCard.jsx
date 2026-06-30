@@ -11,7 +11,7 @@ const UserCard = ({ user }) => {
   const handleRequest = async (status) => {
     try {
       const res = await axios.post(
-        `${BASE_URL}request/send/${status}/${_id}`,
+        `${BASE_URL}/request/send/${status}/${_id}`,
         {},
         { withCredentials: true },
       );

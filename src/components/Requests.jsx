@@ -10,7 +10,7 @@ const Requests = () => {
   const requestReviewHandler = (status, id) => {
     try {
       const res = axios.post(
-        `${BASE_URL}request/review/${status}/${id}`,
+        `${BASE_URL}/request/review/${status}/${id}`,
         {},
         { withCredentials: true },
       );
@@ -22,7 +22,7 @@ const Requests = () => {
   };
   const fetchRequests = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}user/requests/received`, {
+      const res = await axios.get(`${BASE_URL}/user/requests/received`, {
         withCredentials: true,
       });
       dispatch(addRequest(res.data.data));

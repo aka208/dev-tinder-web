@@ -23,7 +23,7 @@ const Login = () => {
   const signUpClickHandler = async () => {
     try {
       const requestBody = { firstName, lastName, emailId, password };
-      const res = await axios.post(`${BASE_URL}signup`, requestBody, {
+      const res = await axios.post(`${BASE_URL}/signup`, requestBody, {
         withCredentials: true,
       });
       console.log(res);
